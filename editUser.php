@@ -105,7 +105,7 @@ require_once('includes/header.php');
         <h1>Bob is the boss, not boat owner!</h1>
     <?php } else { ?>
         <h3><?= $user->getFullName() ?>'s Boats</h3>
-        <a href="javascript:alert('Finish the ADD function for boat')">New Boat</a>
+        <a href="javascript:alert('Finish the ADD function for boat as an owner, edit addBoat.php')">New Boat</a>
         <table class="table table-striped">
             <thead>
                 <tr>
