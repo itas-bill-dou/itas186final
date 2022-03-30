@@ -1,0 +1,26 @@
+# ./docker-compose.yml
+
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: ''
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+      MYSQL_DATABASE: marina
+    ports:
+      - 9998:3306
+    volumes:
+      - ./db_data:/var/lib/mysql
+  web:
+    build: .
+    image: php:8.0-apache
+    depends_on:
+      - db
+    volumes:
+      - .:/var/www/html/
+    ports:
+      - 9999:80
+    stdin_open: true
+    tty: true
