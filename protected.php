@@ -31,32 +31,34 @@ require_once('includes/header.php');
         </div>
     </div>
     <hr class="my-4">
-    <h2>Boat Owners List</h2>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Username</th>
-                <th scope="col">Full Name</th>
-                <th scope="col">Role</th>
-                <th scope="col"># of Boats</th>
-                <th scope="col" colspan="2" class="text-center">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($owners as $owner) : ?>
+    <?php if ($user->isAdmin()) { ?>
+        <h2>Boat Owners List</h2>
+        <table class="table table-striped">
+            <thead>
                 <tr>
-                    <td><?= $owner->getId() ?></td>
-                    <td><?= $owner->getUsername() ?></td>
-                    <td><?= $owner->getFullName() ?></td>
-                    <td><?= $owner->isAdmin() ? 'Super Admin' : 'Boat Owner' ?></td>
-                    <td>Display how many boats this ower has</td>
-                    <td class="text-center"><a href="edituser.php?id=<?= $owner->getId() ?>" class="btn btn-info">Edit</a>&nbsp;<a href="javascript:alert('Finish the DELETE function for user')" class="btn btn-danger">Delete</a></td>
+                    <th scope="col">#</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Role</th>
+                    <th scope="col"># of Boats</th>
+                    <th scope="col" colspan="2" class="text-center">Actions</th>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
+            </thead>
+            <tbody>
+                <?php foreach ($owners as $owner) : ?>
+                    <tr>
+                        <td><?= $owner->getId() ?></td>
+                        <td><?= $owner->getUsername() ?></td>
+                        <td><?= $owner->getFullName() ?></td>
+                        <td><?= $owner->isAdmin() ? 'Super Admin' : 'Boat Owner' ?></td>
+                        <td>Display how many boats this ower has</td>
+                        <td class="text-center"><a href="edituser.php?id=<?= $owner->getId() ?>" class="btn btn-info">Edit</a>&nbsp;<a href="javascript:alert('Finish the DELETE function for user')" class="btn btn-danger">Delete</a></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
 
-    </table>
+        </table>
+    <?php } ?>
 </div>
 
 <?php

@@ -11,9 +11,9 @@ if (empty($_SESSION['isLoggedIn'])) {
     header('Location: login.php');
 }
 
-$id = null;
+$profile_id = null;
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-    $id = $_GET['id'];
+    $profile_id = $_GET['id'];
 }
 
 $errorMessage = '';
@@ -21,11 +21,20 @@ $message = '';
 
 // We know we're authenticated so get the user by the id stored in the session.
 $user = User::find($_SESSION['userId']);
-if ($user->isAdmin() && $id) {
-    $user = User::find($id);
+
+// Admin mode
+if ($user->isAdmin() && $profile_id) {
+    $user = User::find($profile_id);
     // Find this user's all boats
-    $boats = Boat::findBoatsByUserId($id);
+    $boats = Boat::findBoatsByUserId($profile_id);
 }
+
+// Owner mode
+if (!$user->isAdmin()) {
+    // Find this user's all boats
+    $boats = Boat::findBoatsByUserId($_SESSION['userId']);
+}
+
 
 // Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
