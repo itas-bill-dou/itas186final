@@ -10,10 +10,10 @@ if (empty($_SESSION['isLoggedIn'])) {
 }
 
 // We know we're authenticated so get the user by the id stored in the session.
-$user = User::find($_SESSION['userId']);
+$loggedInUser = User::find($_SESSION['userId']);
 
 // Only admin/boss can view the owner list
-if ($user->isAdmin()) {
+if ($loggedInUser->isAdmin()) {
     $owners = User::findAll();
 }
 
@@ -21,17 +21,8 @@ require_once('includes/header.php');
 ?>
 
 <div class="container">
-    <div class="row mt-5">
-        <div class="col">
-            <h1>Nanaimo Marina</h1>
-            <h3>Hello, <?php echo $user->getFirstName(); ?> [<a href="editUser.php">Edit Profile</a>] [<a href="javascript:alert('Finish the ADD boat function as Admin, edit addBoat.php')">New Boat</a>]</h3>
-        </div>
-        <div class="col text-end">
-            <a href="logout.php">Logout</a>
-        </div>
-    </div>
     <hr class="my-4">
-    <?php if ($user->isAdmin()) { ?>
+    <?php if ($loggedInUser->isAdmin()) { ?>
         <h2>Boat Owners List</h2>
         <table class="table table-striped">
             <thead>

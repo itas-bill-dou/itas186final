@@ -20,21 +20,20 @@ $errorMessage = '';
 $message = '';
 
 // We know we're authenticated so get the user by the id stored in the session.
-$user = User::find($_SESSION['userId']);
-
-// Admin mode
-if ($user->isAdmin() && $profile_id) {
-    $user = User::find($profile_id);
-    // Find this user's all boats
-    $boats = Boat::findBoatsByUserId($profile_id);
-}
+$loggedInUser = User::find($_SESSION['userId']);
 
 // Owner mode
-if (!$user->isAdmin()) {
+if (!$loggedInUser->isAdmin()) {
     // Find this user's all boats
     $boats = Boat::findBoatsByUserId($_SESSION['userId']);
 }
 
+// Admin mode
+if ($loggedInUser->isAdmin() && $profile_id) {
+    $user = User::find($profile_id);
+    // Find this user's all boats
+    $boats = Boat::findBoatsByUserId($profile_id);
+}
 
 // Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

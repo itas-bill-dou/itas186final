@@ -13,3 +13,14 @@
 </head>
 
 <body class="h-100">
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col">
+                <h1>Nanaimo Marina</h1>
+                <h3>Hello, <?php echo $loggedInUser->getFirstName(); ?> [<a href="editUser.php">Edit Profile</a>] [<a href="javascript:alert('Finish the ADD boat function as Admin, edit addBoat.php')">New Boat</a>]</h3>
+            </div>
+            <div class="col text-end">
+                <a href="logout.php">Logout</a>
+            </div>
+        </div>
+    </div>
