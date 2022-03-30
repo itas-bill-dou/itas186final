@@ -29,10 +29,13 @@ if (!$loggedInUser->isAdmin()) {
 }
 
 // Admin mode
-if ($loggedInUser->isAdmin() && $profile_id) {
-    $user = User::find($profile_id);
-    // Find this user's all boats
-    $boats = Boat::findBoatsByUserId($profile_id);
+if ($loggedInUser->isAdmin()) {
+    $user = $loggedInUser;
+    if ($profile_id) {
+        $user = User::find($profile_id);
+        // Find this user's all boats
+        $boats = Boat::findBoatsByUserId($profile_id);
+    }
 }
 
 // Check if the form was submitted
@@ -127,7 +130,7 @@ require_once('includes/header.php');
             <tbody>
                 <?php foreach ($boats as $boat) : ?>
                     <tr>
-                        <th scope="row">1</th>
+                        <th scope="row"><?= $boat->getId() ?></th>
                         <td><?= $boat->getName() ?></td>
                         <td><?= $boat->getRegNumber() ?></td>
                         <td>@<?= $boat->getLength() ?></td>
