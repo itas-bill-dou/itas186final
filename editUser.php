@@ -4,6 +4,7 @@ session_start();
 
 require_once('class/Exception.php');
 require_once('class/User.php');
+require_once('class/Boat.php');
 
 // If we're not logged in, go to the login page
 if (empty($_SESSION['isLoggedIn'])) {
@@ -22,6 +23,8 @@ $message = '';
 $user = User::find($_SESSION['userId']);
 if ($user->isAdmin() && $id) {
     $user = User::find($id);
+    // Find this user's all boats
+    $boats = Boat::findBoatsByUserId($id);
 }
 
 // Check if the form was submitted
@@ -43,7 +46,11 @@ require_once('includes/header.php');
 ?>
 
 <div class="container p-4">
+    <div class="row mt-5">
+        <a href="protected.php">Go back home</a>
+    </div>
     <h2>Update Profile</h2>
+
     <div class="row mt-5">
         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
             <?php if ($errorMessage) { ?>
@@ -92,9 +99,40 @@ require_once('includes/header.php');
             </div>
         </form>
     </div>
-    <div class="row mt-5">
-        <a href="protected.php">Go back home</a>
-    </div>
+
+    <hr class="my-4">
+    <?php if ($user->isAdmin()) { ?>
+        <h1>Bob is the boss, not boat owner!</h1>
+    <?php } else { ?>
+        <h3><?= $user->getFullName() ?>'s Boats</h3>
+        <a href="javascript:alert('Finish the ADD function for boat')">New Boat</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Reg Number</th>
+                    <th scope="col">Length</th>
+                    <th scope="col" colspan="2" class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($boats as $boat) : ?>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td><?= $boat->getName() ?></td>
+                        <td><?= $boat->getRegNumber() ?></td>
+                        <td>@<?= $boat->getLength() ?></td>
+                        <td class="text-center"><a href="javascript:alert('Finish the edit function for boat')" class="btn btn-info">Edit</a>
+                            &nbsp;
+                            <a href="javascript:alert('Finish the delete function for boat')" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+
+        </table>
+    <?php } ?>
 </div>
 
 <?php

@@ -11,7 +11,7 @@ require_once('includes/header.php');
 <div class="container">
     <div class="row mt-5 text-center">
         <div class="col">
-            <h1>Welcome to the page! Please login.</h1>
+            <h1>Welcome to the page! Please login. WOW</h1>
             <a href="login.php">Login</a>
             <a href="addUser.php">Register</a>
         </div>

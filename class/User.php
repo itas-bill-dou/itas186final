@@ -52,8 +52,9 @@ class User extends Database implements ActiveRecord
     {
         // We call getInstance here because this is a static function
         $db = Database::getInstance(self::$dbName);
-        return $db->fetch(
+        return $db->fetchAll(
             'SELECT * FROM `users`;',
+            [],
             'User'
         );
     }

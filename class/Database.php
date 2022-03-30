@@ -22,14 +22,14 @@ class Database
         /**
          * If you use docker, uncomment out the following 2 lines
          */
-        // $this->host = 'host.docker.internal';
-        // $this->port = '9998';
+        $this->host = 'host.docker.internal';
+        $this->port = '9998';
 
         /**
          * If you use docker, comment out the following 2 lines
          */
-        $this->host = 'localhost';
-        $this->port = '3306';
+        // $this->host = 'localhost';
+        // $this->port = '3306';
 
         $this->user = 'root';
         $this->pass = '';
