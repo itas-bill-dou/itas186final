@@ -24,8 +24,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $id = $user->create();
 
+    // Login the new user
     if ($id) {
         $_SESSION['userId'] = $id;
+        $_SESSION['username'] = $_POST['username'];
         $_SESSION['isLoggedIn'] = true;
         header('Location: protected.php');
     } else {
@@ -39,7 +41,7 @@ require_once('includes/header.php');
 <div class="container p-4">
     <h2>Sign Up</h2>
     <div class="row mt-5">
-        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+        <form method="post" autocomplete="off">
             <?php if ($errorMessage) { ?>
                 <div class="alert alert-danger">
                     <?php echo $errorMessage; ?>
@@ -55,16 +57,16 @@ require_once('includes/header.php');
                     <label for="username" class="form-label">Username</label>
                     <div class="input-group has-validation">
                         <span class="input-group-text">@</span>
-                        <input type="text" class="form-control" id="username" name="username" placeholder="Username" required="">
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Username" required autocomplete="off">
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="password" required="">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="password" required autocomplete="off">
                 </div>
                 <div class="col-sm-6">
                     <label for="firstName" class="form-label">First name</label>
-                    <input type="text" class="form-control" id="firstName" name="first_name" placeholder="" value="" required="">
+                    <input type="text" class="form-control" id="firstName" name="first_name" placeholder="" value="" required>
                 </div>
 
                 <div class="col-sm-6">

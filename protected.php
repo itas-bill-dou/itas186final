@@ -3,6 +3,7 @@
 session_start();
 
 require_once('class/User.php');
+require_once('class/Boat.php');
 
 // If we're not logged in, go to the login page
 if (empty($_SESSION['isLoggedIn'])) {
@@ -42,7 +43,7 @@ require_once('includes/header.php');
                         <td><?= $owner->getUsername() ?></td>
                         <td><?= $owner->getFullName() ?></td>
                         <td><?= $owner->isAdmin() ? 'Super Admin' : 'Boat Owner' ?></td>
-                        <td>Display how many boats this ower has</td>
+                        <td><?= Boat::countBoatsByUserId($owner->getId()) ?></td>
                         <td class="text-center"><a href="edituser.php?id=<?= $owner->getId() ?>" class="btn btn-info">Edit</a>&nbsp;<a href="javascript:alert('Finish the DELETE function for user')" class="btn btn-danger">Delete</a></td>
                     </tr>
                 <?php endforeach; ?>

@@ -11,16 +11,13 @@ if (empty($_SESSION['isLoggedIn'])) {
     header('Location: login.php');
 }
 
-$profile_id = null;
-if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-    $profile_id = $_GET['id'];
-}
-
 $errorMessage = '';
 $message = '';
 
 // We know we're authenticated so get the user by the id stored in the session.
 $loggedInUser = User::find($_SESSION['userId']);
+
+$user = $loggedInUser;
 
 // Owner mode
 if (!$loggedInUser->isAdmin()) {
@@ -29,13 +26,10 @@ if (!$loggedInUser->isAdmin()) {
 }
 
 // Admin mode
-if ($loggedInUser->isAdmin()) {
-    $user = $loggedInUser;
-    if ($profile_id) {
-        $user = User::find($profile_id);
-        // Find this user's all boats
-        $boats = Boat::findBoatsByUserId($profile_id);
-    }
+if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+    $user = User::find($_GET['id']);
+    // Find this user's all boats
+    $boats = Boat::findBoatsByUserId($_GET['id']);
 }
 
 // Check if the form was submitted
@@ -63,7 +57,7 @@ require_once('includes/header.php');
     <h2>Update Profile</h2>
 
     <div class="row mt-5">
-        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+        <form method="post">
             <?php if ($errorMessage) { ?>
                 <div class="alert alert-danger">
                     <?php echo $errorMessage; ?>
@@ -89,7 +83,7 @@ require_once('includes/header.php');
                     <label for="username" class="form-label">Username</label>
                     <div class="input-group has-validation">
                         <span class="input-group-text">@</span>
-                        <input type="text" class="form-control" id="username" name="username" value="<?= $user->getUsername() ?>" placeholder="Username" required="">
+                        <input type="text" class="form-control" id="username" name="username" value="<?= $user->getUsername() ?>" placeholder="Username" readonly>
                     </div>
                 </div>
 
@@ -112,11 +106,9 @@ require_once('includes/header.php');
     </div>
 
     <hr class="my-4">
-    <?php if ($user->isAdmin()) { ?>
-        <h1>Bob is the boss, not boat owner!</h1>
-    <?php } else { ?>
+    <?php if (!$user->isAdmin()) { ?>
         <h3><?= $user->getFullName() ?>'s Boats</h3>
-        <a href="javascript:alert('Finish the ADD function for boat as an owner, edit addBoat.php')">New Boat</a>
+        <a href="addBoat.php">New Boat</a>
         <table class="table table-striped">
             <thead>
                 <tr>

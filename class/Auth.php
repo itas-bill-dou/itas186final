@@ -26,7 +26,7 @@ class Auth extends Database
             // Note: We call getInstance here because we're in a static function and can't use $this
             $user = Database::getInstance(self::$dbName)->fetch(
                 'SELECT * FROM `users` WHERE username = ?;',
-                [$sanitizedUsername],
+                [$sanitizedUsername]
             );
 
             if (!$user) {
@@ -41,6 +41,7 @@ class Auth extends Database
         if (password_verify($password, $user->password)) {
             // If we have the user object, lets put some information into the session
             $_SESSION['userId'] = $user->id;
+            $_SESSION['username'] = $user->username;
             $_SESSION['isLoggedIn'] = true;
             return true;
         }
@@ -54,6 +55,7 @@ class Auth extends Database
     public static function logout()
     {
         unset($_SESSION['userId']);
+        unset($_SESSION['username']);
         unset($_SESSION['isLoggedIn']);
         session_destroy();
     }

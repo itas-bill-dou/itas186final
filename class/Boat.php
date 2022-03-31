@@ -132,6 +132,16 @@ class Boat extends Database implements ActiveRecord
     }
 
     /**
+     * Find and return the boats number belongs to given user_id
+     *
+     * @return ActiveRecord[]
+     */
+    public static function countBoatsByUserId($user_id)
+    {
+        // Implement code here
+    }
+
+    /**
      * @return int
      */
     public function getId()
